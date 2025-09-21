@@ -28,12 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "metodo_simplex";
+            lbl_grafica = new Label();
+            SuspendLayout();
+            // 
+            // lbl_grafica
+            // 
+            lbl_grafica.AutoSize = true;
+            lbl_grafica.Font = new Font("Cooper Black", 24F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lbl_grafica.ForeColor = Color.White;
+            lbl_grafica.Location = new Point(303, 27);
+            lbl_grafica.Name = "lbl_grafica";
+            lbl_grafica.Size = new Size(171, 46);
+            lbl_grafica.TabIndex = 1;
+            lbl_grafica.Text = "Grafica";
+            // 
+            // metodo_simplex
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(30, 30, 60);
+            ClientSize = new Size(800, 450);
+            Controls.Add(lbl_grafica);
+            Name = "metodo_simplex";
+            Text = "metodo_simplex";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label lbl_grafica;
     }
 }
