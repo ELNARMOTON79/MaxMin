@@ -89,9 +89,10 @@
             btn_grafica.Size = new Size(381, 100);
             btn_grafica.TabIndex = 2;
             btn_grafica.Tag = "Visualiza región factible y la solución óptima.";
-            btn_grafica.Text = "Gráfico de Programación Lineal";
+            btn_grafica.Text = "Gráfica de Programación Lineal";
             btn_grafica.TextAlign = ContentAlignment.MiddleLeft;
             btn_grafica.UseVisualStyleBackColor = false;
+            btn_grafica.Click += btn_grafica_Click;
             // 
             // menu
             // 
@@ -103,6 +104,8 @@
             Controls.Add(btn_simplex);
             Controls.Add(button1);
             Controls.Add(btn_grafica);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "menu";
             Text = "MaxMin";
             ResumeLayout(false);
