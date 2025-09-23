@@ -108,6 +108,7 @@
             MinimizeBox = false;
             Name = "menu";
             Text = "MaxMin";
+            Load += menu_Load;
             ResumeLayout(false);
             PerformLayout();
         }
