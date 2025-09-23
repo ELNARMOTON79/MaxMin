@@ -60,6 +60,7 @@
             btn_simplex.Text = "Método Simplex";
             btn_simplex.TextAlign = ContentAlignment.MiddleLeft;
             btn_simplex.UseVisualStyleBackColor = false;
+            btn_simplex.Click += btn_simplex_Click;
             // 
             // button1
             // 
@@ -76,6 +77,7 @@
             button1.Text = "Método de la M";
             button1.TextAlign = ContentAlignment.MiddleLeft;
             button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click;
             // 
             // btn_grafica
             // 
