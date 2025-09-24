@@ -7,24 +7,30 @@
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        // Controles
+        // --- DECLARACIONES DE CONTROLES ACTUALIZADAS ---
+        private System.Windows.Forms.Label lblTitulo;
+        private System.Windows.Forms.GroupBox gbEntrada;
+        private System.Windows.Forms.GroupBox gbConfiguracion;
+        private System.Windows.Forms.GroupBox gbIteraciones;
+        private System.Windows.Forms.GroupBox gbResultado;
+        private System.Windows.Forms.DataGridView dgvFuncionObjetivo;
+        private System.Windows.Forms.DataGridView dgvRestricciones;
+        private System.Windows.Forms.TextBox txtResultadoFinal;
         private System.Windows.Forms.Label lblFuncionObjetivo;
-        private System.Windows.Forms.TextBox txtFuncionObjetivo;
         private System.Windows.Forms.Label lblRestricciones;
-        private System.Windows.Forms.TextBox txtRestricciones;
         private System.Windows.Forms.Button btnResolver;
         private System.Windows.Forms.Button btnRegresar;
         private System.Windows.Forms.TabControl tabIteraciones;
-        private System.Windows.Forms.Label lblResultado;
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.ComboBox cmbTipo;
-        private System.Windows.Forms.Label lblMaxIter;
-        private System.Windows.Forms.NumericUpDown nudMaxIter;
-        private System.Windows.Forms.ListBox listBoxLogs;
         private System.Windows.Forms.Panel panelTop;
+        // NUEVOS CONTROLES PARA LA VERSIÓN DINÁMICA
+        private System.Windows.Forms.Label lblNumeroVariables;
+        private System.Windows.Forms.NumericUpDown nudNumeroVariables;
+
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         protected override void Dispose(bool disposing)
         {
@@ -37,187 +43,311 @@
 
         #region Windows Form Designer generated code
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.lblFuncionObjetivo = new System.Windows.Forms.Label();
-            this.txtFuncionObjetivo = new System.Windows.Forms.TextBox();
-            this.lblRestricciones = new System.Windows.Forms.Label();
-            this.txtRestricciones = new System.Windows.Forms.TextBox();
-            this.lblTipo = new System.Windows.Forms.Label();
-            this.cmbTipo = new System.Windows.Forms.ComboBox();
-            this.lblMaxIter = new System.Windows.Forms.Label();
-            this.nudMaxIter = new System.Windows.Forms.NumericUpDown();
-            this.btnResolver = new System.Windows.Forms.Button();
-            this.btnRegresar = new System.Windows.Forms.Button();
-            this.tabIteraciones = new System.Windows.Forms.TabControl();
-            this.lblResultado = new System.Windows.Forms.Label();
-            this.listBoxLogs = new System.Windows.Forms.ListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMaxIter)).BeginInit();
-            this.panelTop.SuspendLayout();
-            this.SuspendLayout();
+            panelTop = new Panel();
+            lblTitulo = new Label();
+            gbEntrada = new GroupBox();
+            lblRestricciones = new Label();
+            lblFuncionObjetivo = new Label();
+            dgvRestricciones = new DataGridView();
+            dgvFuncionObjetivo = new DataGridView();
+            gbConfiguracion = new GroupBox();
+            nudNumeroVariables = new NumericUpDown();
+            lblNumeroVariables = new Label();
+            cmbTipo = new ComboBox();
+            lblTipo = new Label();
+            btnRegresar = new Button();
+            btnResolver = new Button();
+            gbIteraciones = new GroupBox();
+            tabIteraciones = new TabControl();
+            gbResultado = new GroupBox();
+            txtResultadoFinal = new TextBox();
+            panelTop.SuspendLayout();
+            gbEntrada.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRestricciones).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvFuncionObjetivo).BeginInit();
+            gbConfiguracion.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)nudNumeroVariables).BeginInit();
+            gbIteraciones.SuspendLayout();
+            gbResultado.SuspendLayout();
+            SuspendLayout();
             // 
-            // panelTop (estético)
+            // panelTop
             // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(34, 45, 65);
-            this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelTop.Height = 60;
+            panelTop.BackColor = Color.FromArgb(0, 123, 255);
+            panelTop.Controls.Add(lblTitulo);
+            panelTop.Dock = DockStyle.Top;
+            panelTop.Location = new Point(0, 0);
+            panelTop.Margin = new Padding(4, 5, 4, 5);
+            panelTop.Name = "panelTop";
+            panelTop.Size = new Size(1691, 100);
+            panelTop.TabIndex = 0;
             // 
-            // lblFuncionObjetivo
+            // lblTitulo
             // 
-            this.lblFuncionObjetivo.AutoSize = true;
-            this.lblFuncionObjetivo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblFuncionObjetivo.ForeColor = System.Drawing.Color.White;
-            this.lblFuncionObjetivo.Location = new System.Drawing.Point(20, 75);
-            this.lblFuncionObjetivo.Name = "lblFuncionObjetivo";
-            this.lblFuncionObjetivo.Size = new System.Drawing.Size(150, 19);
-            this.lblFuncionObjetivo.Text = "Función Objetivo (Z):";
+            lblTitulo.Anchor = AnchorStyles.None;
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
+            lblTitulo.ForeColor = Color.White;
+            lblTitulo.Location = new Point(643, 25);
+            lblTitulo.Margin = new Padding(4, 0, 4, 0);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(566, 45);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "Resolución por Método M";
+            lblTitulo.Click += lblTitulo_Click;
             // 
-            // txtFuncionObjetivo
+            // gbEntrada
             // 
-            this.txtFuncionObjetivo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtFuncionObjetivo.Location = new System.Drawing.Point(180, 72);
-            this.txtFuncionObjetivo.Size = new System.Drawing.Size(620, 25);
-            this.txtFuncionObjetivo.Name = "txtFuncionObjetivo";
-            this.txtFuncionObjetivo.PlaceholderText = "Ej: 3x1 + 5x2  (selecciona Maximizar o Minimizar)";
+            gbEntrada.BackColor = Color.White;
+            gbEntrada.Controls.Add(lblRestricciones);
+            gbEntrada.Controls.Add(lblFuncionObjetivo);
+            gbEntrada.Controls.Add(dgvRestricciones);
+            gbEntrada.Controls.Add(dgvFuncionObjetivo);
+            gbEntrada.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbEntrada.Location = new Point(34, 308);
+            gbEntrada.Margin = new Padding(4, 5, 4, 5);
+            gbEntrada.Name = "gbEntrada";
+            gbEntrada.Padding = new Padding(4, 5, 4, 5);
+            gbEntrada.Size = new Size(757, 600);
+            gbEntrada.TabIndex = 2;
+            gbEntrada.TabStop = false;
+            gbEntrada.Text = "Entrada del Problema";
             // 
             // lblRestricciones
             // 
-            this.lblRestricciones.AutoSize = true;
-            this.lblRestricciones.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblRestricciones.ForeColor = System.Drawing.Color.Black;
-            this.lblRestricciones.Location = new System.Drawing.Point(20, 110);
-            this.lblRestricciones.Name = "lblRestricciones";
-            this.lblRestricciones.Size = new System.Drawing.Size(105, 19);
-            this.lblRestricciones.Text = "Restricciones:";
+            lblRestricciones.AutoSize = true;
+            lblRestricciones.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblRestricciones.Location = new Point(21, 204);
+            lblRestricciones.Margin = new Padding(4, 0, 4, 0);
+            lblRestricciones.Name = "lblRestricciones";
+            lblRestricciones.Size = new Size(134, 28);
+            lblRestricciones.TabIndex = 0;
+            lblRestricciones.Text = "Restricciones:";
             // 
-            // txtRestricciones
+            // lblFuncionObjetivo
             // 
-            this.txtRestricciones.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtRestricciones.Location = new System.Drawing.Point(180, 110);
-            this.txtRestricciones.Multiline = true;
-            this.txtRestricciones.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtRestricciones.Size = new System.Drawing.Size(620, 120);
-            this.txtRestricciones.Name = "txtRestricciones";
-            this.txtRestricciones.PlaceholderText = "Una restricción por línea. Ej: 2x1 + x2 <= 10";
+            lblFuncionObjetivo.AutoSize = true;
+            lblFuncionObjetivo.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblFuncionObjetivo.Location = new Point(21, 42);
+            lblFuncionObjetivo.Margin = new Padding(4, 0, 4, 0);
+            lblFuncionObjetivo.Name = "lblFuncionObjetivo";
+            lblFuncionObjetivo.Size = new Size(303, 28);
+            lblFuncionObjetivo.TabIndex = 1;
+            lblFuncionObjetivo.Text = "Función Objetivo (Coeficientes):";
             // 
-            // lblTipo
+            // dgvRestricciones
             // 
-            this.lblTipo.AutoSize = true;
-            this.lblTipo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblTipo.Location = new System.Drawing.Point(20, 245);
-            this.lblTipo.Name = "lblTipo";
-            this.lblTipo.Size = new System.Drawing.Size(95, 15);
-            this.lblTipo.Text = "Tipo problema:";
+            dgvRestricciones.BackgroundColor = Color.Gainsboro;
+            dgvRestricciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvRestricciones.Location = new Point(26, 246);
+            dgvRestricciones.Margin = new Padding(4, 5, 4, 5);
+            dgvRestricciones.Name = "dgvRestricciones";
+            dgvRestricciones.RowHeadersWidth = 62;
+            dgvRestricciones.Size = new Size(700, 329);
+            dgvRestricciones.TabIndex = 1;
+            dgvRestricciones.DefaultValuesNeeded += dgvRestricciones_DefaultValuesNeeded;
+            // 
+            // dgvFuncionObjetivo
+            // 
+            dgvFuncionObjetivo.AllowUserToAddRows = false;
+            dgvFuncionObjetivo.BackgroundColor = Color.Gainsboro;
+            dgvFuncionObjetivo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvFuncionObjetivo.Location = new Point(26, 83);
+            dgvFuncionObjetivo.Margin = new Padding(4, 5, 4, 5);
+            dgvFuncionObjetivo.Name = "dgvFuncionObjetivo";
+            dgvFuncionObjetivo.RowHeadersWidth = 62;
+            dgvFuncionObjetivo.Size = new Size(700, 72);
+            dgvFuncionObjetivo.TabIndex = 0;
+            // 
+            // gbConfiguracion
+            // 
+            gbConfiguracion.BackColor = Color.White;
+            gbConfiguracion.Controls.Add(nudNumeroVariables);
+            gbConfiguracion.Controls.Add(lblNumeroVariables);
+            gbConfiguracion.Controls.Add(cmbTipo);
+            gbConfiguracion.Controls.Add(lblTipo);
+            gbConfiguracion.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbConfiguracion.Location = new Point(34, 133);
+            gbConfiguracion.Margin = new Padding(4, 5, 4, 5);
+            gbConfiguracion.Name = "gbConfiguracion";
+            gbConfiguracion.Padding = new Padding(4, 5, 4, 5);
+            gbConfiguracion.Size = new Size(757, 142);
+            gbConfiguracion.TabIndex = 1;
+            gbConfiguracion.TabStop = false;
+            gbConfiguracion.Text = "Configuración";
+            // 
+            // nudNumeroVariables
+            // 
+            nudNumeroVariables.Font = new Font("Segoe UI", 9F);
+            nudNumeroVariables.Location = new Point(600, 70);
+            nudNumeroVariables.Margin = new Padding(4, 5, 4, 5);
+            nudNumeroVariables.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            nudNumeroVariables.Name = "nudNumeroVariables";
+            nudNumeroVariables.Size = new Size(123, 31);
+            nudNumeroVariables.TabIndex = 3;
+            nudNumeroVariables.Value = new decimal(new int[] { 3, 0, 0, 0 });
+            // 
+            // lblNumeroVariables
+            // 
+            lblNumeroVariables.AutoSize = true;
+            lblNumeroVariables.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblNumeroVariables.Location = new Point(400, 73);
+            lblNumeroVariables.Margin = new Padding(4, 0, 4, 0);
+            lblNumeroVariables.Name = "lblNumeroVariables";
+            lblNumeroVariables.Size = new Size(208, 28);
+            lblNumeroVariables.TabIndex = 4;
+            lblNumeroVariables.Text = "Número de Variables:";
             // 
             // cmbTipo
             // 
-            this.cmbTipo.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cmbTipo.Location = new System.Drawing.Point(120, 240);
-            this.cmbTipo.Size = new System.Drawing.Size(130, 23);
-            this.cmbTipo.Name = "cmbTipo";
-            this.cmbTipo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbTipo.Items.AddRange(new object[] { "Maximizar", "Minimizar" });
-            this.cmbTipo.SelectedIndex = 0;
+            cmbTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbTipo.Font = new Font("Segoe UI", 9F);
+            cmbTipo.FormattingEnabled = true;
+            cmbTipo.Items.AddRange(new object[] { "Maximizar", "Minimizar" });
+            cmbTipo.Location = new Point(171, 70);
+            cmbTipo.Margin = new Padding(4, 5, 4, 5);
+            cmbTipo.Name = "cmbTipo";
+            cmbTipo.Size = new Size(200, 33);
+            cmbTipo.TabIndex = 2;
             // 
-            // lblMaxIter
+            // lblTipo
             // 
-            this.lblMaxIter.AutoSize = true;
-            this.lblMaxIter.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lblMaxIter.Location = new System.Drawing.Point(270, 245);
-            this.lblMaxIter.Name = "lblMaxIter";
-            this.lblMaxIter.Size = new System.Drawing.Size(120, 15);
-            this.lblMaxIter.Text = "Máx. iteraciones:";
-            // 
-            // nudMaxIter
-            // 
-            this.nudMaxIter.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.nudMaxIter.Location = new System.Drawing.Point(390, 240);
-            this.nudMaxIter.Minimum = 1;
-            this.nudMaxIter.Maximum = 500;
-            this.nudMaxIter.Value = 20;
-            this.nudMaxIter.Name = "nudMaxIter";
-            this.nudMaxIter.Size = new System.Drawing.Size(80, 23);
-            // 
-            // btnResolver
-            // 
-            this.btnResolver.BackColor = System.Drawing.Color.FromArgb(17, 90, 149);
-            this.btnResolver.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnResolver.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnResolver.ForeColor = System.Drawing.Color.White;
-            this.btnResolver.Location = new System.Drawing.Point(500, 235);
-            this.btnResolver.Name = "btnResolver";
-            this.btnResolver.Size = new System.Drawing.Size(140, 30);
-            this.btnResolver.Text = "Resolver";
-            this.btnResolver.UseVisualStyleBackColor = false;
-            this.btnResolver.Click += new System.EventHandler(this.btnResolver_Click);
+            lblTipo.AutoSize = true;
+            lblTipo.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold);
+            lblTipo.Location = new Point(21, 73);
+            lblTipo.Margin = new Padding(4, 0, 4, 0);
+            lblTipo.Name = "lblTipo";
+            lblTipo.Size = new Size(150, 28);
+            lblTipo.TabIndex = 5;
+            lblTipo.Text = "Tipo Problema:";
             // 
             // btnRegresar
             // 
-            this.btnRegresar.BackColor = System.Drawing.Color.Gray;
-            this.btnRegresar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRegresar.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnRegresar.ForeColor = System.Drawing.Color.White;
-            this.btnRegresar.Location = new System.Drawing.Point(660, 235);
-            this.btnRegresar.Name = "btnRegresar";
-            this.btnRegresar.Size = new System.Drawing.Size(140, 30);
-            this.btnRegresar.Text = "Regresar";
-            this.btnRegresar.UseVisualStyleBackColor = false;
-            this.btnRegresar.Click += new System.EventHandler(this.btnRegresar_Click);
+            btnRegresar.BackColor = Color.FromArgb(224, 224, 224);
+            btnRegresar.FlatAppearance.BorderSize = 0;
+            btnRegresar.FlatStyle = FlatStyle.Flat;
+            btnRegresar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            btnRegresar.ForeColor = Color.FromArgb(64, 64, 64);
+            btnRegresar.Location = new Point(34, 933);
+            btnRegresar.Margin = new Padding(4, 5, 4, 5);
+            btnRegresar.Name = "btnRegresar";
+            btnRegresar.Size = new Size(171, 67);
+            btnRegresar.TabIndex = 4;
+            btnRegresar.Text = "Regresar";
+            btnRegresar.UseVisualStyleBackColor = false;
+            // 
+            // btnResolver
+            // 
+            btnResolver.BackColor = Color.FromArgb(0, 123, 255);
+            btnResolver.FlatAppearance.BorderSize = 0;
+            btnResolver.FlatStyle = FlatStyle.Flat;
+            btnResolver.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            btnResolver.ForeColor = Color.White;
+            btnResolver.Location = new Point(620, 933);
+            btnResolver.Margin = new Padding(4, 5, 4, 5);
+            btnResolver.Name = "btnResolver";
+            btnResolver.Size = new Size(171, 67);
+            btnResolver.TabIndex = 3;
+            btnResolver.Text = "Resolver";
+            btnResolver.UseVisualStyleBackColor = false;
+            btnResolver.Click += btnResolver_Click;
+            // 
+            // gbIteraciones
+            // 
+            gbIteraciones.BackColor = Color.White;
+            gbIteraciones.Controls.Add(tabIteraciones);
+            gbIteraciones.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbIteraciones.Location = new Point(821, 133);
+            gbIteraciones.Margin = new Padding(4, 5, 4, 5);
+            gbIteraciones.Name = "gbIteraciones";
+            gbIteraciones.Padding = new Padding(4, 5, 4, 5);
+            gbIteraciones.Size = new Size(836, 486);
+            gbIteraciones.TabIndex = 5;
+            gbIteraciones.TabStop = false;
+            gbIteraciones.Text = "Tablas de Iteraciones";
+            gbIteraciones.Enter += gbIteraciones_Enter;
             // 
             // tabIteraciones
             // 
-            this.tabIteraciones.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.tabIteraciones.Location = new System.Drawing.Point(20, 280);
-            this.tabIteraciones.Name = "tabIteraciones";
-            this.tabIteraciones.SelectedIndex = 0;
-            this.tabIteraciones.Size = new System.Drawing.Size(640, 300);
+            tabIteraciones.Dock = DockStyle.Fill;
+            tabIteraciones.Font = new Font("Segoe UI", 9F);
+            tabIteraciones.Location = new Point(4, 35);
+            tabIteraciones.Margin = new Padding(4, 5, 4, 5);
+            tabIteraciones.Name = "tabIteraciones";
+            tabIteraciones.SelectedIndex = 0;
+            tabIteraciones.Size = new Size(828, 446);
+            tabIteraciones.TabIndex = 0;
+            tabIteraciones.SelectedIndexChanged += tabIteraciones_SelectedIndexChanged;
             // 
-            // listBoxLogs
+            // gbResultado
             // 
-            this.listBoxLogs.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.listBoxLogs.Location = new System.Drawing.Point(670, 280);
-            this.listBoxLogs.Name = "listBoxLogs";
-            this.listBoxLogs.Size = new System.Drawing.Size(260, 300);
+            gbResultado.BackColor = Color.White;
+            gbResultado.Controls.Add(txtResultadoFinal);
+            gbResultado.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbResultado.Location = new Point(821, 644);
+            gbResultado.Margin = new Padding(4, 5, 4, 5);
+            gbResultado.Name = "gbResultado";
+            gbResultado.Padding = new Padding(4, 5, 4, 5);
+            gbResultado.Size = new Size(836, 456);
+            gbResultado.TabIndex = 6;
+            gbResultado.TabStop = false;
+            gbResultado.Text = "Resultado Final";
             // 
-            // lblResultado
+            // txtResultadoFinal
             // 
-            this.lblResultado.AutoSize = true;
-            this.lblResultado.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblResultado.Location = new System.Drawing.Point(20, 590);
-            this.lblResultado.Name = "lblResultado";
-            this.lblResultado.Size = new System.Drawing.Size(300, 19);
-            this.lblResultado.Text = "Resultado de Z y variables: (presiona Resolver)";
+            txtResultadoFinal.BackColor = Color.White;
+            txtResultadoFinal.BorderStyle = BorderStyle.None;
+            txtResultadoFinal.Dock = DockStyle.Fill;
+            txtResultadoFinal.Font = new Font("Consolas", 11.25F);
+            txtResultadoFinal.Location = new Point(4, 35);
+            txtResultadoFinal.Margin = new Padding(4, 5, 4, 5);
+            txtResultadoFinal.Multiline = true;
+            txtResultadoFinal.Name = "txtResultadoFinal";
+            txtResultadoFinal.ReadOnly = true;
+            txtResultadoFinal.Size = new Size(828, 416);
+            txtResultadoFinal.TabIndex = 0;
+            txtResultadoFinal.Text = "Presiona \"Resolver\" para ver los resultados.";
             // 
             // metodo_m
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(960, 630);
-            this.Controls.Add(this.panelTop);
-            this.Controls.Add(this.lblFuncionObjetivo);
-            this.Controls.Add(this.txtFuncionObjetivo);
-            this.Controls.Add(this.lblRestricciones);
-            this.Controls.Add(this.txtRestricciones);
-            this.Controls.Add(this.lblTipo);
-            this.Controls.Add(this.cmbTipo);
-            this.Controls.Add(this.lblMaxIter);
-            this.Controls.Add(this.nudMaxIter);
-            this.Controls.Add(this.btnResolver);
-            this.Controls.Add(this.btnRegresar);
-            this.Controls.Add(this.tabIteraciones);
-            this.Controls.Add(this.listBoxLogs);
-            this.Controls.Add(this.lblResultado);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Name = "metodo_m";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Método M - Big M (Simplex)";
-            ((System.ComponentModel.ISupportInitialize)(this.nudMaxIter)).EndInit();
-            this.panelTop.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(240, 242, 245);
+            ClientSize = new Size(1691, 1135);
+            Controls.Add(gbResultado);
+            Controls.Add(gbIteraciones);
+            Controls.Add(btnResolver);
+            Controls.Add(btnRegresar);
+            Controls.Add(gbConfiguracion);
+            Controls.Add(gbEntrada);
+            Controls.Add(panelTop);
+            Font = new Font("Segoe UI", 9F);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            Name = "metodo_m";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Método M - Big M (Simplex)";
+            Load += metodo_m_Load;
+            panelTop.ResumeLayout(false);
+            panelTop.PerformLayout();
+            gbEntrada.ResumeLayout(false);
+            gbEntrada.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvRestricciones).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvFuncionObjetivo).EndInit();
+            gbConfiguracion.ResumeLayout(false);
+            gbConfiguracion.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)nudNumeroVariables).EndInit();
+            gbIteraciones.ResumeLayout(false);
+            gbResultado.ResumeLayout(false);
+            gbResultado.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
