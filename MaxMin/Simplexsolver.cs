@@ -10,7 +10,7 @@ namespace MaxMin
     {
         private double[,] tabla;
         private int filas;
-        private int columnas;
+        private int columnas;           
         private List<string> variablesBasicas;
         private List<string> todasLasVariables;
         private bool esMaximizacion;

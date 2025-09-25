@@ -60,6 +60,7 @@
             btn_simplex.Text = "Método Simplex";
             btn_simplex.TextAlign = ContentAlignment.MiddleLeft;
             btn_simplex.UseVisualStyleBackColor = false;
+            btn_simplex.Click += btn_simplex_Click_1;
             // 
             // button1
             // 

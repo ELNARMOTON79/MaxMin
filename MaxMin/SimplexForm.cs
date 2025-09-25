@@ -67,27 +67,27 @@ namespace MaxMin
             // Título
             Label lblTitulo = new Label
             {
-                Text = "Configuración del Problema",
-                Location = new Point(20, 20),
-                Size = new Size(300, 30),
-                Font = new Font("Segoe UI", 14, FontStyle.Bold),
+                Text = "Configuración del problema",
+                Location = new Point(20, 15),
+                Size = new Size(340, 28),
+                Font = new Font("Segoe UI", 13, FontStyle.Bold),
                 ForeColor = Color.White
             };
 
             // Número de variables
             Label lblVariables = new Label
             {
-                Text = "Número de variables:",
-                Location = new Point(20, 70),
-                Size = new Size(150, 25),
+                Text = "Núm. variables:",
+                Location = new Point(20, 50),
+                Size = new Size(140, 18),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Segoe UI", 9)
             };
 
             numVariables = new NumericUpDown
             {
-                Location = new Point(180, 70),
-                Size = new Size(80, 25),
+                Location = new Point(180, 48), // Más a la derecha
+                Size = new Size(60, 22),
                 Minimum = 2,
                 Maximum = 10,
                 Value = 2
@@ -96,17 +96,17 @@ namespace MaxMin
             // Número de restricciones
             Label lblRestricciones = new Label
             {
-                Text = "Número de restricciones:",
-                Location = new Point(20, 110),
-                Size = new Size(150, 25),
+                Text = "Núm. restricciones:",
+                Location = new Point(20, 80),
+                Size = new Size(140, 18),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Segoe UI", 9)
             };
 
             numRestricciones = new NumericUpDown
             {
-                Location = new Point(180, 110),
-                Size = new Size(80, 25),
+                Location = new Point(180, 78), // Más a la derecha
+                Size = new Size(60, 22),
                 Minimum = 1,
                 Maximum = 10,
                 Value = 4
@@ -116,17 +116,17 @@ namespace MaxMin
             GroupBox gbTipo = new GroupBox
             {
                 Text = "Tipo de optimización",
-                Location = new Point(20, 150),
+                Location = new Point(20, 115),
                 Size = new Size(200, 80),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 10)
+                Font = new Font("Segoe UI", 9)
             };
 
             rbMaximizar = new RadioButton
             {
                 Text = "Maximizar",
                 Location = new Point(20, 25),
-                Size = new Size(100, 25),
+                Size = new Size(100, 20),
                 Checked = true,
                 ForeColor = Color.White
             };
@@ -135,17 +135,16 @@ namespace MaxMin
             {
                 Text = "Minimizar",
                 Location = new Point(20, 50),
-                Size = new Size(100, 25),
+                Size = new Size(100, 20),
                 ForeColor = Color.White
             };
 
             gbTipo.Controls.AddRange(new Control[] { rbMaximizar, rbMinimizar });
 
-            // Usar Button estándar en lugar de CustomButton para evitar problemas
             btnGenerarCampos = new Button
             {
                 Text = "Generar Campos",
-                Location = new Point(20, 250),
+                Location = new Point(20, 210),
                 Size = new Size(200, 40),
                 BackColor = Color.FromArgb(60, 80, 150),
                 ForeColor = Color.White,
@@ -555,6 +554,11 @@ namespace MaxMin
             menu menuForm = new menu();
             menuForm.ShowDialog();
             this.Close();
+        }
+
+        private void InitializeComponent()
+        {
+
         }
     }
 }

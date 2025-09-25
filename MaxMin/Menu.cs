@@ -36,5 +36,9 @@ namespace MaxMin
 
         }
 
+        private void btn_simplex_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
