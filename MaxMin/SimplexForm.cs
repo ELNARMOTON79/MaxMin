@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
-using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Globalization;
 
 namespace MaxMin
 {
@@ -12,7 +14,7 @@ namespace MaxMin
         private Simplexsolver solver;
         private SimplexResultado resultado;
 
-        // Controles principales
+        // Controles de la interfaz
         private Panel panelEntrada;
         private Panel panelResultado;
         private DataGridView gridTabla;
@@ -22,7 +24,7 @@ namespace MaxMin
         private Button btnAtras;
         private Button btnEjemplo;
 
-        // Controles de configuración
+        // Controles para entrada de datos
         private NumericUpDown numVariables;
         private NumericUpDown numRestricciones;
         private RadioButton rbMaximizar;
@@ -30,32 +32,22 @@ namespace MaxMin
         private DataGridView gridFuncionObjetivo;
         private DataGridView gridRestricciones;
         private Button btnGenerarCampos;
-        private ScrollableControl panelFormularios;
 
         public SimplexForm()
         {
             solver = new Simplexsolver();
-            InicializarComponentes();
+            InicializarComponentes(); // Cambiamos el nombre para evitar conflictos
         }
 
-        private void BtnAtras_Click(object sender, EventArgs e)
+        private void InicializarComponentes() // Nombre cambiado
         {
-            this.Hide();
-            menu menuForm = new menu();
-            menuForm.ShowDialog();
-            this.Close();
-        }
-    
-
-        private void InicializarComponentes()
-        {
-            // Configuración del formulario - MÁS GRANDE
-            this.Size = new Size(1400, 900);
+            // Configuración básica del formulario
+            this.Size = new Size(1200, 800);
             this.Text = "Método Simplex - MaxMin";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.FromArgb(45, 45, 48);
-            this.FormBorderStyle = FormBorderStyle.Sizable; // Permitir redimensionar
-            this.MinimumSize = new Size(1400, 900);
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
 
             CrearControlesEntrada();
             CrearControlesResultado();
@@ -64,149 +56,107 @@ namespace MaxMin
 
         private void CrearControlesEntrada()
         {
-            // Panel de entrada más organizado
             panelEntrada = new Panel
             {
                 Location = new Point(20, 20),
-                Size = new Size(450, 750),
+                Size = new Size(400, 600),
                 BackColor = Color.FromArgb(60, 60, 60),
-                BorderStyle = BorderStyle.FixedSingle,
-                AutoScroll = true
+                BorderStyle = BorderStyle.FixedSingle
             };
 
-            int yPos = 15;
-
-            // Título principal
+            // Título
             Label lblTitulo = new Label
             {
-                Text = " Configuración del Problema",
-                Location = new Point(20, yPos),
-                Size = new Size(400, 30),
+                Text = "Configuración del Problema",
+                Location = new Point(20, 20),
+                Size = new Size(300, 30),
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
-                ForeColor = Color.LightBlue,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            yPos += 40;
-
-
-            // SECCIÓN 1: Variables
-            Label lblSeccion1 = new Label
-            {
-                Text = " VARIABLES DE DECISIÓN",
-                Location = new Point(20, yPos),
-                Size = new Size(300, 25),
-                Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                ForeColor = Color.LightGreen
-            };
-            yPos += 30;
-
-            Label lblVarDesc = new Label
-            {
-                Text = "¿Cuántas variables tiene su problema?\n(x₁, x₂, x₃.)",
-                Location = new Point(20, yPos),
-                AutoSize = true,   // 🔹 Esto evita que se corte el texto
-                MaximumSize = new Size(320, 0), // 🔹 Ajusta el ancho, y el alto se adapta solo
-                Font = new Font("Segoe UI", 9),
                 ForeColor = Color.White
             };
 
+            // Número de variables
+            Label lblVariables = new Label
+            {
+                Text = "Número de variables:",
+                Location = new Point(20, 70),
+                Size = new Size(150, 25),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10)
+            };
 
             numVariables = new NumericUpDown
             {
-                Location = new Point(350, yPos + 5),
-                Size = new Size(70, 25),
+                Location = new Point(180, 70),
+                Size = new Size(80, 25),
                 Minimum = 2,
-                Maximum = 6,
-                Value = 2,
+                Maximum = 10,
+                Value = 2
+            };
+
+            // Número de restricciones
+            Label lblRestricciones = new Label
+            {
+                Text = "Número de restricciones:",
+                Location = new Point(20, 110),
+                Size = new Size(150, 25),
+                ForeColor = Color.White,
                 Font = new Font("Segoe UI", 10)
-            };
-            yPos += 50;
-
-            // SECCIÓN 2: Restricciones
-            Label lblSeccion2 = new Label
-            {
-                Text = " RESTRICCIONES DEL PROBLEMA",
-                Location = new Point(20, yPos),
-                Size = new Size(300, 25),
-                Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                ForeColor = Color.LightCoral
-            };
-            yPos += 30;
-
-            Label lblRestDesc = new Label
-            {
-                Text = "¿Cuántas limitaciones tiene su problema?",
-                Location = new Point(20, yPos),
-                AutoSize = true,   // 🔹 Esto evita que se corte el texto
-                MaximumSize = new Size(320, 0), // 🔹 Ajusta el ancho, y el alto se adapta solo
-                Font = new Font("Segoe UI", 9),
-                ForeColor = Color.White
             };
 
             numRestricciones = new NumericUpDown
             {
-                Location = new Point(350, yPos + 5),
-                Size = new Size(70, 25),
+                Location = new Point(180, 110),
+                Size = new Size(80, 25),
                 Minimum = 1,
-                Maximum = 8,
-                Value = 4,
+                Maximum = 10,
+                Value = 4
+            };
+
+            // Tipo de optimización
+            GroupBox gbTipo = new GroupBox
+            {
+                Text = "Tipo de optimización",
+                Location = new Point(20, 150),
+                Size = new Size(200, 80),
+                ForeColor = Color.White,
                 Font = new Font("Segoe UI", 10)
             };
-            yPos += 60;
-
-            // SECCIÓN 3: Tipo de optimización
-            Label lblSeccion3 = new Label
-            {
-                Text = " TIPO DE OPTIMIZACIÓN",
-                Location = new Point(20, yPos),
-                AutoSize = true,   // 🔹 Esto evita que se corte el texto
-                MaximumSize = new Size(320, 0), // 🔹 Ajusta el ancho, y el alto se adapta solo
-                Font = new Font("Segoe UI", 11, FontStyle.Bold),
-                ForeColor = Color.LightBlue
-            };
-            yPos += 35;
 
             rbMaximizar = new RadioButton
             {
-                Text = "🔺 MAXIMIZAR - Obtener el mayor valor posible",
-                Location = new Point(30, yPos),
-                Size = new Size(380, 25),
+                Text = "Maximizar",
+                Location = new Point(20, 25),
+                Size = new Size(100, 25),
                 Checked = true,
-                ForeColor = Color.LightGreen,
-                Font = new Font("Segoe UI", 10)
+                ForeColor = Color.White
             };
-            yPos += 30;
 
             rbMinimizar = new RadioButton
             {
-                Text = "🔻 MINIMIZAR - Obtener el menor valor posible",
-                Location = new Point(30, yPos),
-                Size = new Size(380, 25),
-                ForeColor = Color.LightCoral,
-                Font = new Font("Segoe UI", 10)
+                Text = "Minimizar",
+                Location = new Point(20, 50),
+                Size = new Size(100, 25),
+                ForeColor = Color.White
             };
-            yPos += 30;
 
-            // BOTÓN GENERAR
+            gbTipo.Controls.AddRange(new Control[] { rbMaximizar, rbMinimizar });
+
+            // Usar Button estándar en lugar de CustomButton para evitar problemas
             btnGenerarCampos = new Button
             {
-                Text = "GENERAR FORMULARIO",
-                Location = new Point(80, yPos),
-                Size = new Size(300, 45),
-                BackColor = Color.FromArgb(60, 120, 180),
+                Text = "Generar Campos",
+                Location = new Point(20, 250),
+                Size = new Size(200, 40),
+                BackColor = Color.FromArgb(60, 80, 150),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold)
+                Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
             btnGenerarCampos.Click += BtnGenerarCampos_Click;
 
-            // Agregar todos los controles de configuración
             panelEntrada.Controls.AddRange(new Control[] {
-                lblTitulo,
-                lblSeccion1, lblVarDesc, numVariables,
-                lblSeccion2, lblRestDesc, numRestricciones,
-                lblSeccion3, rbMaximizar, rbMinimizar,
-                btnGenerarCampos
+                lblTitulo, lblVariables, numVariables, lblRestricciones,
+                numRestricciones, gbTipo, btnGenerarCampos
             });
 
             this.Controls.Add(panelEntrada);
@@ -214,94 +164,62 @@ namespace MaxMin
 
         private void CrearControlesResultado()
         {
-            // Panel de resultados más grande
             panelResultado = new Panel
             {
-                Location = new Point(490, 20),
-                Size = new Size(880, 750),
+                Location = new Point(440, 20),
+                Size = new Size(740, 600),
                 BackColor = Color.FromArgb(60, 60, 60),
                 BorderStyle = BorderStyle.FixedSingle
             };
 
-            // Título del panel de resultados
             Label lblResultados = new Label
             {
-                Text = " Resultados del Método Simplex",
-                Location = new Point(20, 15),
-                AutoSize = true,   // 🔹 Esto evita que se corte el texto
-                MaximumSize = new Size(320, 0), // 🔹 Ajusta el ancho, y el alto se adapta solo
+                Text = "Resultados del Método Simplex",
+                Location = new Point(20, 20),
+                Size = new Size(400, 30),
                 Font = new Font("Segoe UI", 14, FontStyle.Bold),
                 ForeColor = Color.White
             };
 
-            // Área principal para la tabla
             gridTabla = new DataGridView
             {
-                Location = new Point(20, 55),
-                Size = new Size(840, 280),
+                Location = new Point(20, 60),
+                Size = new Size(700, 300),
                 BackgroundColor = Color.FromArgb(80, 80, 80),
                 ForeColor = Color.White,
                 GridColor = Color.Gray,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 ReadOnly = true,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-                {
-                    BackColor = Color.FromArgb(70, 70, 70),
-                    ForeColor = Color.White,
-                    Font = new Font("Segoe UI", 9, FontStyle.Bold)
-                }
-            };
-
-            // Área de iteraciones (izquierda)
-            Label lblIteraciones = new Label
-            {
-                Text = "📋 Historial de Iteraciones:",
-                Location = new Point(20, 345),
-                Size = new Size(200, 25),
-                ForeColor = Color.LightBlue,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
             };
 
             txtIteraciones = new TextBox
             {
-                Location = new Point(20, 375),
-                Size = new Size(420, 320),
+                Location = new Point(20, 380),
+                Size = new Size(340, 200),
                 Multiline = true,
                 ScrollBars = ScrollBars.Vertical,
                 BackColor = Color.FromArgb(80, 80, 80),
                 ForeColor = Color.White,
                 ReadOnly = true,
-                Font = new Font("Consolas", 8),
-                BorderStyle = BorderStyle.FixedSingle
-            };
-
-            // Área de solución (derecha)
-            Label lblSolucion = new Label
-            {
-                Text = "🎯 Solución Óptima:",
-                Location = new Point(460, 345),
-                Size = new Size(200, 25),
-                ForeColor = Color.LightGreen,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
+                Font = new Font("Consolas", 9)
             };
 
             txtSolucion = new TextBox
             {
-                Location = new Point(460, 375),
-                Size = new Size(400, 320),
+                Location = new Point(380, 380),
+                Size = new Size(340, 200),
                 Multiline = true,
                 ScrollBars = ScrollBars.Vertical,
                 BackColor = Color.FromArgb(80, 80, 80),
                 ForeColor = Color.White,
                 ReadOnly = true,
-                Font = new Font("Segoe UI", 9),
-                BorderStyle = BorderStyle.FixedSingle
+                Font = new Font("Segoe UI", 10)
             };
 
             panelResultado.Controls.AddRange(new Control[] {
-                lblResultados, gridTabla, lblIteraciones, txtIteraciones, lblSolucion, txtSolucion
+                lblResultados, gridTabla, txtIteraciones, txtSolucion
             });
 
             this.Controls.Add(panelResultado);
@@ -309,13 +227,12 @@ namespace MaxMin
 
         private void CrearBotones()
         {
-            // Botones en la parte inferior
             btnResolver = new Button
             {
-                Text = "🚀 RESOLVER\nPROBLEMA",
-                Location = new Point(50, 790),
-                Size = new Size(140, 60),
-                BackColor = Color.FromArgb(40, 150, 40),
+                Text = "Resolver Simplex",
+                Location = new Point(20, 640),
+                Size = new Size(150, 40),
+                BackColor = Color.FromArgb(60, 150, 80),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
@@ -323,13 +240,23 @@ namespace MaxMin
             };
             btnResolver.Click += BtnResolver_Click;
 
-   
+            btnEjemplo = new Button
+            {
+                Text = "Cargar Ejemplo",
+                Location = new Point(190, 640),
+                Size = new Size(150, 40),
+                BackColor = Color.FromArgb(150, 100, 50),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold)
+            };
+            btnEjemplo.Click += BtnEjemplo_Click;
 
             btnAtras = new Button
             {
-                Text = "← REGRESAR\nAL MENÚ",
-                Location = new Point(1200, 790),
-                Size = new Size(140, 60),
+                Text = "← Regresar",
+                Location = new Point(1000, 640),
+                Size = new Size(150, 40),
                 BackColor = Color.FromArgb(150, 60, 60),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
@@ -345,146 +272,126 @@ namespace MaxMin
             int numVars = (int)numVariables.Value;
             int numRest = (int)numRestricciones.Value;
 
-            // Limpiar controles anteriores si existen
-            LimpiarFormularios();
-
-            // 🔹 Calcular posición justo debajo del último control existente
-            int yPos = 0;
-            foreach (Control ctrl in panelEntrada.Controls)
+            // Limpiar controles anteriores
+            if (gridFuncionObjetivo != null)
             {
-                if (ctrl.Bottom > yPos)
-                    yPos = ctrl.Bottom + 20; // +20 píxeles de margen
+                panelEntrada.Controls.Remove(gridFuncionObjetivo);
+                gridFuncionObjetivo.Dispose();
+            }
+            if (gridRestricciones != null)
+            {
+                panelEntrada.Controls.Remove(gridRestricciones);
+                gridRestricciones.Dispose();
             }
 
-            // FUNCIÓN OBJETIVO
-            Label lblTituloFO = new Label
-            {
-                Text = "📈 FUNCIÓN OBJETIVO:",
-                Location = new Point(20, yPos),
-                Size = new Size(200, 25),
-                ForeColor = Color.LightBlue,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
-            };
-            yPos += 30;
-
-            string tipoObj = rbMaximizar.Checked ? "MAXIMIZAR" : "MINIMIZAR";
-            Label lblDescFO = new Label
-            {
-                Text = $"Coeficientes para {tipoObj} z = c₁x₁ + c₂x₂ + ...",
-                Location = new Point(20, yPos),
-                AutoSize = true,
-                MaximumSize = new Size(400, 0),
-                ForeColor = Color.LightGray,
-                Font = new Font("Segoe UI", 8)
-            };
-            yPos += 25;
-
+            // Grid para función objetivo
             gridFuncionObjetivo = new DataGridView
             {
-                Location = new Point(20, yPos),
-                Size = new Size(400, 60),
-                BackgroundColor = Color.FromArgb(90, 90, 90),
+                Location = new Point(20, 320),
+                Size = new Size(350, 80),
+                BackgroundColor = Color.FromArgb(80, 80, 80),
                 ForeColor = Color.White,
                 GridColor = Color.Gray,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 ColumnHeadersVisible = true,
-                RowHeadersVisible = true,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                RowHeadersVisible = false
             };
 
+            // Configurar columnas función objetivo
             for (int i = 0; i < numVars; i++)
+            {
                 gridFuncionObjetivo.Columns.Add($"x{i + 1}", $"x{i + 1}");
+                gridFuncionObjetivo.Columns[i].Width = 60;
+            }
 
             gridFuncionObjetivo.Rows.Add();
-            gridFuncionObjetivo.Rows[0].HeaderCell.Value = "z =";
-            yPos += gridFuncionObjetivo.Height + 20;
 
-            // RESTRICCIONES
-            Label lblTituloRest = new Label
-            {
-                Text = "📋 RESTRICCIONES:",
-                Location = new Point(20, yPos),
-                Size = new Size(200, 25),
-                ForeColor = Color.LightCoral,
-                Font = new Font("Segoe UI", 10, FontStyle.Bold)
-            };
-            yPos += 30;
-
-            Label lblDescRest = new Label
-            {
-                Text = "Coeficientes y límites: a₁x₁ + a₂x₂ + ... ≤ b",
-                Location = new Point(20, yPos),
-                AutoSize = true,
-                MaximumSize = new Size(400, 0),
-                ForeColor = Color.LightGray,
-                Font = new Font("Segoe UI", 8)
-            };
-            yPos += 25;
-
-            int alturaGrid = Math.Min(200, 40 + numRest * 25);
+            // Grid para restricciones
             gridRestricciones = new DataGridView
             {
-                Location = new Point(20, yPos),
-                Size = new Size(400, alturaGrid),
-                BackgroundColor = Color.FromArgb(90, 90, 90),
+                Location = new Point(20, 420),
+                Size = new Size(350, 150),
+                BackgroundColor = Color.FromArgb(80, 80, 80),
                 ForeColor = Color.White,
                 GridColor = Color.Gray,
                 AllowUserToAddRows = false,
                 AllowUserToDeleteRows = false,
                 ColumnHeadersVisible = true,
-                RowHeadersVisible = true,
-                ScrollBars = ScrollBars.Vertical,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+                RowHeadersVisible = true
             };
 
+            // Configurar columnas restricciones
             for (int i = 0; i < numVars; i++)
+            {
                 gridRestricciones.Columns.Add($"x{i + 1}", $"x{i + 1}");
-
+                gridRestricciones.Columns[i].Width = 50;
+            }
             gridRestricciones.Columns.Add("rhs", "≤");
+            gridRestricciones.Columns[gridRestricciones.Columns.Count - 1].Width = 60;
 
+            // Agregar filas
             for (int i = 0; i < numRest; i++)
             {
                 gridRestricciones.Rows.Add();
                 gridRestricciones.Rows[i].HeaderCell.Value = $"R{i + 1}";
             }
 
-            // Agregar controles
-            panelEntrada.Controls.AddRange(new Control[] {
-            lblTituloFO, lblDescFO, gridFuncionObjetivo,
-            lblTituloRest, lblDescRest, gridRestricciones
-            });
-
-            // Expandir panel si no cabe
-            panelEntrada.AutoScrollMinSize = new Size(0, yPos + alturaGrid + 50);
-
+            panelEntrada.Controls.AddRange(new Control[] { gridFuncionObjetivo, gridRestricciones });
             btnResolver.Enabled = true;
         }
 
-
-        private void LimpiarFormularios()
+        private void BtnEjemplo_Click(object sender, EventArgs e)
         {
-            // Remover controles de formularios anteriores
-            var controlesARemover = panelEntrada.Controls.OfType<Control>()
-                .Where(c => c is DataGridView ||
-                           (c is Label && (c.Text.Contains("FUNCIÓN") || c.Text.Contains("RESTRICCIONES") || c.Text.Contains("Coeficientes"))))
-                .ToList();
+            // Cargar ejemplo "La Mancha"
+            numVariables.Value = 2;
+            numRestricciones.Value = 4;
+            rbMaximizar.Checked = true;
 
-            foreach (var control in controlesARemover)
+            BtnGenerarCampos_Click(sender, e);
+
+            try
             {
-                panelEntrada.Controls.Remove(control);
-                control.Dispose();
-            }
+                // Función objetivo: 5x1 + 4x2
+                gridFuncionObjetivo.Rows[0].Cells[0].Value = 5;
+                gridFuncionObjetivo.Rows[0].Cells[1].Value = 4;
 
-            gridFuncionObjetivo = null;
-            gridRestricciones = null;
+                // Restricciones
+                // 6x1 + 4x2 <= 24
+                gridRestricciones.Rows[0].Cells[0].Value = 6;
+                gridRestricciones.Rows[0].Cells[1].Value = 4;
+                gridRestricciones.Rows[0].Cells[2].Value = 24;
+
+                // x1 + 2x2 <= 6
+                gridRestricciones.Rows[1].Cells[0].Value = 1;
+                gridRestricciones.Rows[1].Cells[1].Value = 2;
+                gridRestricciones.Rows[1].Cells[2].Value = 6;
+
+                // -x1 + x2 <= 1
+                gridRestricciones.Rows[2].Cells[0].Value = -1;
+                gridRestricciones.Rows[2].Cells[1].Value = 1;
+                gridRestricciones.Rows[2].Cells[2].Value = 1;
+
+                // x2 <= 2
+                gridRestricciones.Rows[3].Cells[0].Value = 0;
+                gridRestricciones.Rows[3].Cells[1].Value = 1;
+                gridRestricciones.Rows[3].Cells[2].Value = 2;
+
+                MessageBox.Show("Ejemplo 'La Mancha' cargado exitosamente!", "Ejemplo Cargado",
+                               MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar ejemplo: {ex.Message}", "Error",
+                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void BtnResolver_Click(object sender, EventArgs e)
         {
             try
             {
-                // Leer datos y resolver
+                // Leer datos de la interfaz
                 int numVars = (int)numVariables.Value;
                 int numRest = (int)numRestricciones.Value;
                 bool maximizar = rbMaximizar.Checked;
@@ -512,19 +419,19 @@ namespace MaxMin
                     ladoDerecho[i] = valorRHS != null ? Convert.ToDouble(valorRHS) : 0;
                 }
 
+                // Nombres de variables
                 string[] nombresVariables = new string[numVars];
                 for (int i = 0; i < numVars; i++)
                     nombresVariables[i] = $"x{i + 1}";
 
                 // Resolver
                 resultado = solver.ResolverSimplex(funcionObjetivo, restricciones, ladoDerecho, maximizar, nombresVariables);
-                MostrarResultados();
 
+                MostrarResultados();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"❌ Error al resolver: {ex.Message}", "Error",
-                               MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error al resolver: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -532,138 +439,122 @@ namespace MaxMin
         {
             if (resultado.TieneSolucion)
             {
-                MostrarTablasIteraciones();
-                MostrarHistorialCompleto();
+                MostrarTablaFinal();
+                MostrarHistorialIteraciones();
                 MostrarSolucionOptima();
-                MessageBox.Show("✅ ¡Problema resuelto exitosamente!\n\nRevise los resultados en las tres secciones.",
-                               "Solución Encontrada", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                txtSolucion.Text = $"❌ PROBLEMA SIN SOLUCIÓN:\n{resultado.MensajeError}";
+                txtSolucion.Text = $"El problema no tiene solución:\r\n{resultado.MensajeError}";
                 txtIteraciones.Text = "No se pudo resolver el problema.";
-                MessageBox.Show($"❌ El problema no tiene solución:\n{resultado.MensajeError}",
-                               "Sin Solución", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
-        private void MostrarTablasIteraciones()
+        private void MostrarTablaFinal()
         {
-            // Crear un TabControl para mostrar cada iteración
-            TabControl tabControl = new TabControl
-            {
-                Location = new Point(20, 80), // bajamos un poco para no tapar el label
-                Size = new Size(840, 280)
-            };
+            gridTabla.Columns.Clear();
+            gridTabla.Rows.Clear();
 
+            if (resultado.HistorialTablas.Count == 0) return;
+
+            var tablaFinal = resultado.HistorialTablas[resultado.HistorialTablas.Count - 1];
             var variables = resultado.TodasLasVariables;
 
-            for (int iter = 0; iter < resultado.HistorialTablas.Count; iter++)
+            // Agregar columna para variables básicas
+            gridTabla.Columns.Add("VB", "VB");
+
+            // Agregar columnas para variables
+            for (int j = 0; j < variables.Count; j++)
             {
-                var tabla = resultado.HistorialTablas[iter];
-                string titulo = iter == 0 ? "Tabla Inicial" : $"Iteración {iter}";
+                gridTabla.Columns.Add(variables[j], variables[j]);
+            }
 
-                // Crear una pestaña para esta iteración
-                TabPage tabPage = new TabPage(titulo);
+            // Agregar filas
+            for (int i = 0; i < solver.FilasTabla; i++)
+            {
+                object[] fila = new object[variables.Count + 1];
 
-                // Crear un DataGridView para mostrar la tabla
-                DataGridView grid = new DataGridView
-                {
-                    Dock = DockStyle.Fill,
-                    BackgroundColor = Color.FromArgb(80, 80, 80),
-                    ForeColor = Color.White,
-                    GridColor = Color.Gray,
-                    AllowUserToAddRows = false,
-                    AllowUserToDeleteRows = false,
-                    ReadOnly = true,
-                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
-                    ColumnHeadersDefaultCellStyle = new DataGridViewCellStyle
-                    {
-                        BackColor = Color.FromArgb(70, 70, 70),
-                        ForeColor = Color.White,
-                        Font = new Font("Segoe UI", 9, FontStyle.Bold)
-                    }
-                };
+                // Variable básica
+                if (i < solver.FilasTabla - 1)
+                    fila[0] = solver.VariablesBasicasActuales[i];
+                else
+                    fila[0] = "z";
 
-                // Columna de variables básicas
-                grid.Columns.Add("VB", "Variable Básica");
+                // Valores de la tabla
                 for (int j = 0; j < variables.Count; j++)
-                    grid.Columns.Add(variables[j], variables[j]);
-
-                // 🔹 Variables básicas específicas de esta iteración
-                List<string> varsBasicasIter = null;
-                if (resultado.HistorialVariablesBasicas != null && resultado.HistorialVariablesBasicas.Count > iter)
-                    varsBasicasIter = resultado.HistorialVariablesBasicas[iter];
-
-                // Llenar filas
-                for (int i = 0; i < solver.FilasTabla; i++)
                 {
-                    object[] fila = new object[variables.Count + 1];
-
-                    if (i < solver.FilasTabla - 1)
-                        fila[0] = (varsBasicasIter != null && i < varsBasicasIter.Count)
-                                    ? varsBasicasIter[i]
-                                    : $"s{i + 1}";
-                    else
-                        fila[0] = "z (Objetivo)";
-
-                    for (int j = 0; j < variables.Count; j++)
-                        fila[j + 1] = Math.Round(tabla[i, j], 4).ToString("F4");
-
-                    grid.Rows.Add(fila);
+                    fila[j + 1] = Math.Round(tablaFinal[i, j], 4).ToString();
                 }
 
-                tabPage.Controls.Add(grid);
-                tabControl.TabPages.Add(tabPage);
+                gridTabla.Rows.Add(fila);
             }
 
-            // Limpiar y agregar al panel de resultados
-            panelResultado.Controls.Remove(gridTabla); // quitamos el grid único
-            panelResultado.Controls.Add(tabControl);   // agregamos el TabControl
+            // Resaltar fila Z
+            if (gridTabla.Rows.Count > 0)
+            {
+                var filaZ = gridTabla.Rows[gridTabla.Rows.Count - 1];
+                filaZ.DefaultCellStyle.BackColor = Color.FromArgb(100, 50, 200);
+                filaZ.DefaultCellStyle.ForeColor = Color.White;
+            }
         }
 
-
-
-        private void MostrarHistorialCompleto()
+        private void MostrarHistorialIteraciones()
         {
             txtIteraciones.Clear();
-            txtIteraciones.AppendText("📋 HISTORIAL COMPLETO DEL MÉTODO SIMPLEX\n");
-            txtIteraciones.AppendText("".PadRight(50, '=') + "\n\n");
+            txtIteraciones.AppendText("HISTORIAL DE ITERACIONES:\r\n");
+            txtIteraciones.AppendText("========================\r\n\r\n");
 
-            for (int iter = 0; iter < resultado.HistorialPasos.Count; iter++)
+            for (int i = 0; i < resultado.HistorialPasos.Count; i++)
             {
-                string titulo = iter == 0 ? "📊 TABLA INICIAL" : $"🔄 ITERACIÓN {iter}";
-                txtIteraciones.AppendText($"{titulo}:\n");
-                txtIteraciones.AppendText($"{resultado.HistorialPasos[iter]}\n");
-                txtIteraciones.AppendText("".PadRight(40, '-') + "\n");
+                txtIteraciones.AppendText($"{i + 1}. {resultado.HistorialPasos[i]}\r\n");
             }
 
-            txtIteraciones.AppendText($"\n🎯 TOTAL DE ITERACIONES: {resultado.NumeroIteraciones}\n");
-            txtIteraciones.AppendText("✅ SOLUCIÓN ÓPTIMA ENCONTRADA");
+            txtIteraciones.AppendText($"\r\nTotal de iteraciones: {resultado.NumeroIteraciones}");
         }
 
         private void MostrarSolucionOptima()
         {
             txtSolucion.Clear();
-            txtSolucion.AppendText(" SOLUCIÓN ÓPTIMA FINAL\n");
-            txtSolucion.AppendText("".PadRight(30, '=') + "\n\n");
+            txtSolucion.AppendText("SOLUCIÓN ÓPTIMA:\r\n");
+            txtSolucion.AppendText("================\r\n\r\n");
 
-            txtSolucion.AppendText(" VARIABLES BÁSICAS:\n");
+            txtSolucion.AppendText("Variables básicas:\r\n");
             foreach (var variable in resultado.VariablesBasicas)
             {
-                txtSolucion.AppendText($"   {variable.Key} = {Math.Round(variable.Value, 2):F4}\n,\n");
+                txtSolucion.AppendText($"  {variable.Key} = {Math.Round(variable.Value, 4)}\r\n");
             }
 
-            txtSolucion.AppendText("\n VARIABLES NO BÁSICAS:\n");
+            txtSolucion.AppendText("\r\nVariables no básicas:\r\n");
             foreach (var variable in resultado.VariablesNoBasicas)
             {
-                txtSolucion.AppendText($"   {variable} = 0.0000\n,\n");
+                txtSolucion.AppendText($"  {variable} = 0.0000\r\n");
             }
 
-            string tipoOptimo = resultado.EsMaximizacion ? "MÁXIMO" : "MÍNIMO";
-            txtSolucion.AppendText($"\n VALOR ÓPTIMO:\n");
-            txtSolucion.AppendText($"   z = {Math.Round(resultado.ValorObjetivo, 2):F4} ({tipoOptimo})\n");
+            string tipoOptimo = resultado.EsMaximizacion ? "máximo" : "mínimo";
+            txtSolucion.AppendText($"\r\nValor óptimo de la función objetivo:\r\n");
+            txtSolucion.AppendText($"  z = {Math.Round(resultado.ValorObjetivo, 4)} ({tipoOptimo})\r\n");
 
+            // Interpretación para problema La Mancha
+            if (Math.Abs(resultado.ValorObjetivo - 21) < 0.01 && resultado.VariablesBasicas.Count >= 2)
+            {
+                txtSolucion.AppendText($"\r\nINTERPRETACIÓN:\r\n");
+                txtSolucion.AppendText($"La empresa debe producir:\r\n");
+
+                if (resultado.VariablesBasicas.ContainsKey("x1"))
+                    txtSolucion.AppendText($"• {Math.Round(resultado.VariablesBasicas["x1"], 1)} toneladas de pintura exterior\r\n");
+                if (resultado.VariablesBasicas.ContainsKey("x2"))
+                    txtSolucion.AppendText($"• {Math.Round(resultado.VariablesBasicas["x2"], 1)} toneladas de pintura interior\r\n");
+
+                txtSolucion.AppendText($"Para obtener una utilidad máxima de ${Math.Round(resultado.ValorObjetivo, 0)},000 pesos diarios.");
+            }
+        }
+
+        private void BtnAtras_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            menu menuForm = new menu();
+            menuForm.ShowDialog();
+            this.Close();
         }
     }
 }

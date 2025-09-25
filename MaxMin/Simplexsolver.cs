@@ -20,26 +20,22 @@ namespace MaxMin
         public List<double[,]> HistorialTablas { get; private set; }
         public bool TieneSolucion { get; private set; }
         public string MensajeError { get; private set; }
-        public List<List<string>> HistorialVariablesBasicas { get; private set; }
 
         public Simplexsolver() { 
             iteracion = 0;
             HistorialPasos = new List<string>();
             HistorialTablas = new List<double[,]>();
-            HistorialVariablesBasicas = new List<List<string>>();
             TieneSolucion = false;
             MensajeError = "";
         }
 
         public SimplexResultado ResolverSimplex(double[] funcionObjetivo, double[,] restricciones, double[] ladoDerecho, bool maximizar = true, string[] nombresVariables = null)
-
         {
             try
             { 
                 esMaximizacion = maximizar;
                 int numVariables = funcionObjetivo.Length;
                 int numRestricciones = restricciones.GetLength(0);
-
 
                 //configurar nombres de variables
                 if (nombresVariables == null)
@@ -210,14 +206,10 @@ namespace MaxMin
         {
             HistorialPasos.Add(descripcion);
             HistorialTablas.Add((double[,])tablaActual.Clone());
-
-            // 🔹 Guardar copia del estado de las variables básicas en este paso
-            HistorialVariablesBasicas.Add(new List<string>(variablesBasicas));
         }
 
         private SimplexResultado CrearResultado()
         {
-
             var resultado = new SimplexResultado
             {
                 TieneSolucion = this.TieneSolucion,
@@ -227,8 +219,7 @@ namespace MaxMin
                 VariablesNoBasicas = new List<string>(),
                 HistorialPasos = this.HistorialPasos,
                 HistorialTablas = this.HistorialTablas,
-                TodasLasVariables = new List<string>(this.todasLasVariables),
-                HistorialVariablesBasicas = this.HistorialVariablesBasicas
+                TodasLasVariables = new List<string>(this.todasLasVariables)
             };
 
             if (TieneSolucion)
@@ -274,7 +265,5 @@ namespace MaxMin
         public List<string> HistorialPasos { get; set; }
         public List<double[,]> HistorialTablas { get; set; }
         public List<string> TodasLasVariables { get; set; }
-        public List<List<string>> HistorialVariablesBasicas { get; set; }
-
     }
 }
