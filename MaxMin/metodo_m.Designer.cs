@@ -79,7 +79,7 @@
             // 
             // panelTop
             // 
-            panelTop.BackColor = Color.FromArgb(0, 123, 255);
+            panelTop.BackColor = Color.FromArgb(29, 185, 84);
             panelTop.Controls.Add(lblTitulo);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
@@ -93,23 +93,24 @@
             lblTitulo.Anchor = AnchorStyles.None;
             lblTitulo.AutoSize = true;
             lblTitulo.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.White;
+            lblTitulo.ForeColor = Color.FromArgb(0, 0, 0);
             lblTitulo.Location = new Point(643, 25);
             lblTitulo.Margin = new Padding(4, 0, 4, 0);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(566, 45);
+            lblTitulo.Size = new Size(413, 45);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Resolución por Método M";
             lblTitulo.Click += lblTitulo_Click;
             // 
             // gbEntrada
             // 
-            gbEntrada.BackColor = Color.White;
+            gbEntrada.BackColor = Color.FromArgb(60, 63, 65);
             gbEntrada.Controls.Add(lblRestricciones);
             gbEntrada.Controls.Add(lblFuncionObjetivo);
             gbEntrada.Controls.Add(dgvRestricciones);
             gbEntrada.Controls.Add(dgvFuncionObjetivo);
             gbEntrada.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbEntrada.ForeColor = Color.Teal;
             gbEntrada.Location = new Point(34, 308);
             gbEntrada.Margin = new Padding(4, 5, 4, 5);
             gbEntrada.Name = "gbEntrada";
@@ -118,6 +119,7 @@
             gbEntrada.TabIndex = 2;
             gbEntrada.TabStop = false;
             gbEntrada.Text = "Entrada del Problema";
+            gbEntrada.Enter += gbEntrada_Enter;
             // 
             // lblRestricciones
             // 
@@ -143,7 +145,7 @@
             // 
             // dgvRestricciones
             // 
-            dgvRestricciones.BackgroundColor = Color.Gainsboro;
+            dgvRestricciones.BackgroundColor = Color.FromArgb(45, 45, 48);
             dgvRestricciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvRestricciones.Location = new Point(26, 246);
             dgvRestricciones.Margin = new Padding(4, 5, 4, 5);
@@ -156,7 +158,7 @@
             // dgvFuncionObjetivo
             // 
             dgvFuncionObjetivo.AllowUserToAddRows = false;
-            dgvFuncionObjetivo.BackgroundColor = Color.Gainsboro;
+            dgvFuncionObjetivo.BackgroundColor = Color.FromArgb(45, 45, 48);
             dgvFuncionObjetivo.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvFuncionObjetivo.Location = new Point(26, 83);
             dgvFuncionObjetivo.Margin = new Padding(4, 5, 4, 5);
@@ -167,12 +169,13 @@
             // 
             // gbConfiguracion
             // 
-            gbConfiguracion.BackColor = Color.White;
+            gbConfiguracion.BackColor = Color.FromArgb(60, 63, 65);
             gbConfiguracion.Controls.Add(nudNumeroVariables);
             gbConfiguracion.Controls.Add(lblNumeroVariables);
             gbConfiguracion.Controls.Add(cmbTipo);
             gbConfiguracion.Controls.Add(lblTipo);
             gbConfiguracion.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbConfiguracion.ForeColor = Color.Teal;
             gbConfiguracion.Location = new Point(34, 133);
             gbConfiguracion.Margin = new Padding(4, 5, 4, 5);
             gbConfiguracion.Name = "gbConfiguracion";
@@ -181,6 +184,7 @@
             gbConfiguracion.TabIndex = 1;
             gbConfiguracion.TabStop = false;
             gbConfiguracion.Text = "Configuración";
+            gbConfiguracion.Enter += gbConfiguracion_Enter;
             // 
             // nudNumeroVariables
             // 
@@ -229,11 +233,11 @@
             // 
             // btnRegresar
             // 
-            btnRegresar.BackColor = Color.FromArgb(224, 224, 224);
+            btnRegresar.BackColor = Color.FromArgb(220, 53, 69);
             btnRegresar.FlatAppearance.BorderSize = 0;
             btnRegresar.FlatStyle = FlatStyle.Flat;
             btnRegresar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
-            btnRegresar.ForeColor = Color.FromArgb(64, 64, 64);
+            btnRegresar.ForeColor = Color.White;
             btnRegresar.Location = new Point(34, 933);
             btnRegresar.Margin = new Padding(4, 5, 4, 5);
             btnRegresar.Name = "btnRegresar";
@@ -244,7 +248,7 @@
             // 
             // btnResolver
             // 
-            btnResolver.BackColor = Color.FromArgb(0, 123, 255);
+            btnResolver.BackColor = Color.FromArgb(29, 185, 84);
             btnResolver.FlatAppearance.BorderSize = 0;
             btnResolver.FlatStyle = FlatStyle.Flat;
             btnResolver.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
@@ -260,9 +264,10 @@
             // 
             // gbIteraciones
             // 
-            gbIteraciones.BackColor = Color.White;
+            gbIteraciones.BackColor = Color.FromArgb(60, 63, 65);
             gbIteraciones.Controls.Add(tabIteraciones);
             gbIteraciones.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbIteraciones.ForeColor = Color.Teal;
             gbIteraciones.Location = new Point(821, 133);
             gbIteraciones.Margin = new Padding(4, 5, 4, 5);
             gbIteraciones.Name = "gbIteraciones";
@@ -287,9 +292,10 @@
             // 
             // gbResultado
             // 
-            gbResultado.BackColor = Color.White;
+            gbResultado.BackColor = Color.FromArgb(60, 63, 65);
             gbResultado.Controls.Add(txtResultadoFinal);
             gbResultado.Font = new Font("Segoe UI", 11.25F, FontStyle.Bold);
+            gbResultado.ForeColor = Color.Teal;
             gbResultado.Location = new Point(821, 644);
             gbResultado.Margin = new Padding(4, 5, 4, 5);
             gbResultado.Name = "gbResultado";
@@ -301,10 +307,11 @@
             // 
             // txtResultadoFinal
             // 
-            txtResultadoFinal.BackColor = Color.White;
+            txtResultadoFinal.BackColor = Color.FromArgb(45, 45, 48);
             txtResultadoFinal.BorderStyle = BorderStyle.None;
             txtResultadoFinal.Dock = DockStyle.Fill;
             txtResultadoFinal.Font = new Font("Consolas", 11.25F);
+            txtResultadoFinal.ForeColor = Color.FromArgb(128, 255, 255);
             txtResultadoFinal.Location = new Point(4, 35);
             txtResultadoFinal.Margin = new Padding(4, 5, 4, 5);
             txtResultadoFinal.Multiline = true;
@@ -318,7 +325,7 @@
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.FromArgb(240, 242, 245);
+            BackColor = Color.FromArgb(45, 45, 48);
             ClientSize = new Size(1691, 1135);
             Controls.Add(gbResultado);
             Controls.Add(gbIteraciones);

@@ -23,7 +23,7 @@ namespace MaxMin
             this.Hide();
             metodo_m metodoM = new metodo_m();
             metodoM.ShowDialog();
-            this.Close();
+            this.Show();
         }
 
         private void btn_simplex_Click(object sender, EventArgs e)

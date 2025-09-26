@@ -97,6 +97,10 @@ namespace MaxMin
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            grafica grafica = new grafica();
+            grafica.ShowDialog();
+            this.Close();
             this.Close();
         }
 
@@ -279,14 +283,14 @@ namespace MaxMin
                     dt.Rows.Add(dataRow);
                 }
                 var zRow = dt.NewRow();
-                zRow["Base"] = "Zj";
+                zRow["Base"] = "Z";
                 for (int j = 0; j < nTot; j++) zRow[varNames[j]] = Math.Round(Zj[j], 6).ToString(CultureInfo.InvariantCulture);
                 zRow["RHS"] = Math.Round(CB.Zip(b, (cb_val, b_val) => cb_val * b_val).Sum(), 6).ToString(CultureInfo.InvariantCulture);
                 dt.Rows.Add(zRow);
-                var rcRow = dt.NewRow();
-                rcRow["Base"] = "Cj - Zj";
-                for (int j = 0; j < nTot; j++) rcRow[varNames[j]] = Math.Round(RC[j], 6).ToString(CultureInfo.InvariantCulture);
-                dt.Rows.Add(rcRow);
+                //var rcRow = dt.NewRow();
+                //rcRow["Base"] = "Zj";
+                //for (int j = 0; j < nTot; j++) rcRow[varNames[j]] = Math.Round(RC[j], 6).ToString(CultureInfo.InvariantCulture);
+                //dt.Rows.Add(rcRow);
 
                 var tp = new TabPage($"Iteración {iter}");
                 var dgv = new DataGridView() { Dock = DockStyle.Fill, ReadOnly = true, DataSource = dt, AllowUserToAddRows = false, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells };
@@ -392,6 +396,16 @@ namespace MaxMin
         }
 
         private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbConfiguracion_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbEntrada_Enter(object sender, EventArgs e)
         {
 
         }
