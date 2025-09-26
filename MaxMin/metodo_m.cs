@@ -97,11 +97,6 @@ namespace MaxMin
 
         private void btnRegresar_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            grafica grafica = new grafica();
-            grafica.ShowDialog();
-            this.Close();
-            this.Close();
         }
 
         private void btnResolver_Click(object sender, EventArgs e)
