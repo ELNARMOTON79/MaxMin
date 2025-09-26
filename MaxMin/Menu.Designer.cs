@@ -34,20 +34,6 @@
             btn_grafica = new Button();
             SuspendLayout();
             // 
-            // menu (form)
-            // 
-            this.AutoScaleDimensions = new SizeF(8F, 20F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.BackColor = Color.FromArgb(45, 45, 48);
-            this.ClientSize = new Size(1600, 1000);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
-            this.Name = "menu";
-            this.Text = "MaxMin";
-            this.Load += menu_Load;
-            // 
             // lbl_max
             // 
             lbl_max.AutoSize = true;
@@ -56,7 +42,7 @@
             lbl_max.ForeColor = Color.White;
             lbl_max.Location = new Point(650, 80);
             lbl_max.Name = "lbl_max";
-            lbl_max.Size = new Size(350, 70);
+            lbl_max.Size = new Size(256, 72);
             lbl_max.TabIndex = 0;
             lbl_max.Text = "Max Min";
             // 
@@ -85,6 +71,7 @@
             btn_m.TabIndex = 2;
             btn_m.Text = "Método de la M";
             btn_m.UseVisualStyleBackColor = false;
+            btn_m.Click += btn_m_Click;
             // 
             // btn_grafica
             // 
@@ -100,14 +87,25 @@
             btn_grafica.UseVisualStyleBackColor = false;
             btn_grafica.Click += btn_grafica_Click;
             // 
-            // menu (add controls)
+            // menu
             // 
-            this.Controls.Add(lbl_max);
-            this.Controls.Add(btn_simplex);
-            this.Controls.Add(btn_m);
-            this.Controls.Add(btn_grafica);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(45, 45, 48);
+            ClientSize = new Size(1600, 1000);
+            Controls.Add(lbl_max);
+            Controls.Add(btn_simplex);
+            Controls.Add(btn_m);
+            Controls.Add(btn_grafica);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
+            MinimizeBox = false;
+            Name = "menu";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "MaxMin";
+            Load += menu_Load;
+            ResumeLayout(false);
+            PerformLayout();
         }
         #endregion
 

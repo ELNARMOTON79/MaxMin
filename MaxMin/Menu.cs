@@ -36,5 +36,12 @@ namespace MaxMin
 
         }
 
+        private void btn_m_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            metodo_m metodo_m = new metodo_m();
+            metodo_m.ShowDialog();
+            this.Close();
+        }
     }
 }
