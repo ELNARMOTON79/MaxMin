@@ -4,43 +4,47 @@ using System.Windows.Forms;
 
 namespace MaxMin
 {
+    // Formulario principal para el método gráfico de optimización
     public partial class grafica : Form
     {
         // Controles de la interfaz gráfica
-        private Panel panelEntrada;
-        private Panel panelGrafica;
-        private DataGridView gridFuncionObjetivo;
-        private DataGridView gridRestricciones;
-        private Button btnGenerarCampos;
-        private Button btnResolver;
-        private Button btnAtras;
-        private RadioButton rbMaximizar;
-        private RadioButton rbMinimizar;
-        private PictureBox pictureGrafica;
-        private NumericUpDown numVariablesControl;
-        private NumericUpDown numRestriccionesControl;
-        private TextBox txtPasos;
+        private Panel panelEntrada; // Panel para configuración y entrada de datos
+        private Panel panelGrafica; // Panel para mostrar la gráfica y pasos
+        private DataGridView gridFuncionObjetivo; // Grid para coeficientes de la función objetivo
+        private DataGridView gridRestricciones; // Grid para coeficientes y valores de restricciones
+        private Button btnGenerarCampos; // Botón para generar los campos de entrada
+        private Button btnResolver; // Botón para resolver y graficar
+        private Button btnAtras; // Botón para volver al menú principal
+        private RadioButton rbMaximizar; // Opción para maximizar
+        private RadioButton rbMinimizar; // Opción para minimizar
+        private PictureBox pictureGrafica; // Área donde se dibuja la gráfica
+        private NumericUpDown numVariablesControl; // Selector de número de variables
+        private NumericUpDown numRestriccionesControl; // Selector de número de restricciones
+        private TextBox txtPasos; // Área para mostrar los pasos realizados
 
+        // Constructor del formulario
         public grafica()
         {
             InitializeComponent();
-            InicializarComponentesGrafico();
+            InicializarComponentesGrafico(); // Inicializa todos los controles y la interfaz
         }
 
+        // Inicializa la interfaz gráfica y los paneles principales
         private void InicializarComponentesGrafico()
         {
-            this.Size = new Size(1600, 1000); // Ventana más grande
+            this.Size = new Size(1600, 1000); // Tamaño de la ventana
             this.Text = "Método Gráfico - MaxMin";
             this.StartPosition = FormStartPosition.CenterScreen;
             this.BackColor = Color.FromArgb(45, 45, 48);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
 
-            CrearPanelEntrada();
-            CrearPanelGrafica();
-            CrearBotonesGrafico();
+            CrearPanelEntrada(); // Panel para configuración y entrada
+            CrearPanelGrafica(); // Panel para mostrar la gráfica
+            CrearBotonesGrafico(); // Botones de acción
         }
 
+        // Crea el panel de entrada de datos y configuración
         private void CrearPanelEntrada()
         {
             panelEntrada = new Panel
@@ -52,6 +56,7 @@ namespace MaxMin
                 Anchor = AnchorStyles.Top | AnchorStyles.Left
             };
 
+            // Título del panel
             Label lblTitulo = new Label
             {
                 Text = "Configuración del Problema",
@@ -61,6 +66,7 @@ namespace MaxMin
                 ForeColor = Color.White
             };
 
+            // Selector de número de variables
             Label lblVariables = new Label
             {
                 Text = "Número de variables:",
@@ -79,6 +85,7 @@ namespace MaxMin
                 ForeColor = Color.Black // Color negro para los números
             };
 
+            // Selector de número de restricciones
             Label lblRestricciones = new Label
             {
                 Text = "Número de restricciones:",
@@ -97,6 +104,7 @@ namespace MaxMin
                 ForeColor = Color.Black // Color negro para los números
             };
 
+            // Grupo para seleccionar tipo de optimización
             GroupBox gbTipo = new GroupBox
             {
                 Text = "Tipo de optimización",
@@ -123,6 +131,7 @@ namespace MaxMin
             };
             gbTipo.Controls.AddRange(new Control[] { rbMaximizar, rbMinimizar });
 
+            // Botón para generar los campos de entrada
             btnGenerarCampos = new Button
             {
                 Text = "Generar Campos",
@@ -133,8 +142,9 @@ namespace MaxMin
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold)
             };
-            btnGenerarCampos.Click += BtnGenerarCampos_Click;
+            btnGenerarCampos.Click += BtnGenerarCampos_Click; // Evento para generar los grids
 
+            // Agrega todos los controles al panel de entrada
             panelEntrada.Controls.AddRange(new Control[] {
                 lblTitulo, lblVariables, numVariablesControl, lblRestricciones, numRestriccionesControl, gbTipo, btnGenerarCampos
             });
@@ -142,6 +152,7 @@ namespace MaxMin
             this.Controls.Add(panelEntrada);
         }
 
+        // Crea el panel donde se muestra la gráfica y los pasos
         private void CrearPanelGrafica()
         {
             panelGrafica = new Panel
@@ -153,6 +164,7 @@ namespace MaxMin
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
             };
 
+            // Título del panel de gráfica
             Label lblGrafica = new Label
             {
                 Text = "Gráfica del Problema",
@@ -162,6 +174,7 @@ namespace MaxMin
                 ForeColor = Color.White
             };
 
+            // Área para dibujar la gráfica
             pictureGrafica = new PictureBox
             {
                 Location = new Point(20, 60),
@@ -171,6 +184,7 @@ namespace MaxMin
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Bottom
             };
 
+            // Área para mostrar los pasos realizados
             txtPasos = new TextBox
             {
                 Location = new Point(20, 680),
@@ -187,6 +201,7 @@ namespace MaxMin
             this.Controls.Add(panelGrafica);
         }
 
+        // Crea los botones de acción (resolver y atrás)
         private void CrearBotonesGrafico()
         {
             int btnHeight = 45;
@@ -194,6 +209,7 @@ namespace MaxMin
             int margin = 40;
             int bottomY = this.ClientSize.Height - btnHeight - margin;
 
+            // Botón para resolver el problema gráficamente
             btnResolver = new Button
             {
                 Text = "Resolver Gráficamente",
@@ -203,11 +219,12 @@ namespace MaxMin
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                Enabled = false,
+                Enabled = false, // Se habilita al generar los campos
                 Anchor = AnchorStyles.Left | AnchorStyles.Bottom
             };
-            btnResolver.Click += BtnResolver_Click;
+            btnResolver.Click += BtnResolver_Click; // Evento para resolver y graficar
 
+            // Botón para volver al menú principal
             btnAtras = new Button
             {
                 Text = "← Atrás",
@@ -219,17 +236,18 @@ namespace MaxMin
                 Font = new Font("Segoe UI", 10, FontStyle.Bold),
                 Anchor = AnchorStyles.Left | AnchorStyles.Bottom
             };
-            btnAtras.Click += btn_atras_Click;
+            btnAtras.Click += btn_atras_Click; // Evento para volver atrás
 
             this.Controls.AddRange(new Control[] { btnResolver, btnAtras });
         }
 
+        // Evento: Genera los campos de entrada para función objetivo y restricciones
         private void BtnGenerarCampos_Click(object sender, EventArgs e)
         {
             int numVars = (int)numVariablesControl.Value;
             int numRest = (int)numRestriccionesControl.Value;
 
-            // Limpiar controles anteriores
+            // Limpiar controles anteriores si existen
             if (gridFuncionObjetivo != null)
             {
                 panelEntrada.Controls.Remove(gridFuncionObjetivo);
@@ -241,7 +259,7 @@ namespace MaxMin
                 gridRestricciones.Dispose();
             }
 
-            // Grid para función objetivo
+            // Grid para ingresar coeficientes de la función objetivo
             gridFuncionObjetivo = new DataGridView
             {
                 Location = new Point(20, 290),
@@ -265,7 +283,7 @@ namespace MaxMin
             }
             gridFuncionObjetivo.Rows.Add();
 
-            // Grid para restricciones
+            // Grid para ingresar coeficientes y valores de restricciones
             gridRestricciones = new DataGridView
             {
                 Location = new Point(20, 350),
@@ -319,10 +337,12 @@ namespace MaxMin
                 gridRestricciones.Rows[i].Cells[gridRestricciones.Columns["operador"].Index].Value = "≤"; // Valor por defecto
             }
 
+            // Agrega los grids al panel de entrada
             panelEntrada.Controls.AddRange(new Control[] { gridFuncionObjetivo, gridRestricciones });
-            btnResolver.Enabled = true;
+            btnResolver.Enabled = true; // Habilita el botón de resolver
         }
 
+        // Evento: Resuelve el problema y dibuja la gráfica
         private void BtnResolver_Click(object sender, EventArgs e)
         {
             int numVars = gridFuncionObjetivo.ColumnCount;
@@ -333,7 +353,7 @@ namespace MaxMin
                 return;
             }
 
-            // Leer función objetivo
+            // Leer coeficientes de la función objetivo
             double[] funcionObjetivo = new double[2];
             for (int i = 0; i < 2; i++)
             {
@@ -342,7 +362,7 @@ namespace MaxMin
                 funcionObjetivo[i] = val;
             }
 
-            // Leer restricciones
+            // Leer coeficientes y valores de restricciones
             double[,] restricciones = new double[numRest, 2];
             string[] operadores = new string[numRest];
             double[] rhs = new double[numRest];
@@ -360,14 +380,14 @@ namespace MaxMin
                 rhs[i] = valRhs;
             }
 
-            // Graficar restricciones
+            // Graficar restricciones y puntos
             Bitmap bmp = new Bitmap(pictureGrafica.Width, pictureGrafica.Height);
             Graphics g = Graphics.FromImage(bmp);
             g.Clear(Color.White);
-            Pen penRestriccion = new Pen(Color.Blue, 2);
-            Pen penFactible = new Pen(Color.Green, 2);
-            Pen penEjes = new Pen(Color.Black, 2);
-            Pen penGrid = new Pen(Color.LightGray, 1);
+            Pen penRestriccion = new Pen(Color.Blue, 2); // Para las restricciones
+            Pen penFactible = new Pen(Color.Green, 2); // (No implementado)
+            Pen penEjes = new Pen(Color.Black, 2); // Para los ejes
+            Pen penGrid = new Pen(Color.LightGray, 1); // Para la cuadrícula
             Font fontEjes = new Font("Segoe UI", 9);
             Brush brushEjes = Brushes.Black;
             Brush brushPunto = Brushes.Red;
@@ -464,10 +484,10 @@ namespace MaxMin
                 if (puntos.Count >= 2)
                 {
                     puntos.Sort((p1, p2) => p1.X.CompareTo(p2.X));
-                    g.DrawLine(penRestriccion, puntos[0], puntos[1]);
+                    g.DrawLine(penRestriccion, puntos[0], puntos[1]); // Dibuja la restricción
                 }
             }
-            // Dibujar puntos de inicio
+            // Dibujar puntos de inicio (intersección con ejes)
             foreach (var punto in puntosRestricciones)
             {
                 g.FillEllipse(brushPunto, punto.x - 4, punto.y - 4, 8, 8);
@@ -499,8 +519,8 @@ namespace MaxMin
                     }
                 }
             }
-            pictureGrafica.Image = bmp;
-            // Mostrar pasos
+            pictureGrafica.Image = bmp; // Muestra la imagen in the PictureBox
+            // Mostrar pasos realizados en el TextBox
             string pasos = "Pasos realizados:\r\n";
             pasos += "1. Se grafican las restricciones como rectas en el plano cartesiano.\r\n";
             pasos += "2. Se dibujan los puntos de inicio (intersección con los ejes) usando los datos ingresados:\r\n";
@@ -544,6 +564,7 @@ namespace MaxMin
             txtPasos.Text = pasos;
         }
 
+        // Evento: Vuelve al menú principal
         private void btn_atras_Click(object sender, EventArgs e)
         {
             this.Hide();

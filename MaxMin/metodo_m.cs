@@ -7,31 +7,35 @@ using System.Windows.Forms;
 
 namespace MaxMin
 {
+    // Form principal para el método de la M grande (Big M)
     public partial class metodo_m : Form
     {
+        // Constructor del formulario
         public metodo_m()
         {
             InitializeComponent();
         }
 
+        // Clase interna para representar una restricción
         class Restriccion
         {
-            public double[] Coeficientes { get; set; }
-            public double RHS { get; set; }
-            public string Tipo { get; set; } // <=, >=, =
+            public double[] Coeficientes { get; set; } // Coeficientes de las variables
+            public double RHS { get; set; }           // Término independiente (lado derecho)
+            public string Tipo { get; set; }          // Tipo de restricción: <=, >=, =
         }
 
         // --- MÉTODOS DE CONFIGURACIÓN DE LA INTERFAZ ---
 
+        // Evento de carga del formulario. Configura controles y conecta eventos.
         private void metodo_m_Load(object sender, EventArgs e)
         {
-            // CAMBIO: Se conecta el nuevo evento para el selector de variables
+            // Conecta el evento para el selector de número de variables
             this.nudNumeroVariables.ValueChanged += new System.EventHandler(this.nudNumeroVariables_ValueChanged);
-            ConfigurarTablasDeEntrada();
-            cmbTipo.SelectedIndex = 0;
+            ConfigurarTablasDeEntrada(); // Inicializa las tablas de entrada
+            cmbTipo.SelectedIndex = 0;  // Selecciona "Maximizar" por defecto
         }
 
-        // CAMBIO: El método ahora es dinámico y se basa en nudNumeroVariables
+        // Configura las tablas de entrada para función objetivo y restricciones
         private void ConfigurarTablasDeEntrada()
         {
             // Guarda los valores actuales para no perderlos al cambiar el número de variables
@@ -50,7 +54,7 @@ namespace MaxMin
 
             int numVars = (int)nudNumeroVariables.Value;
 
-            // Configurar DGV Función Objetivo
+            // Configura columnas para la función objetivo
             for (int i = 1; i <= numVars; i++)
             {
                 dgvFuncionObjetivo.Columns.Add($"x{i}", $"x{i}");
@@ -67,14 +71,16 @@ namespace MaxMin
             dgvFuncionObjetivo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvFuncionObjetivo.AllowUserToAddRows = false;
 
-            // Configurar DGV Restricciones
+            // Configura columnas para las restricciones
             for (int i = 1; i <= numVars; i++)
             {
                 dgvRestricciones.Columns.Add($"x{i}", $"x{i}");
             }
 
+            // Columna para el tipo de desigualdad
             var desigualdadCol = new DataGridViewComboBoxColumn { HeaderText = "Signo", Name = "desigualdad", Items = { "<=", ">=", "=" }, Width = 60 };
             dgvRestricciones.Columns.Add(desigualdadCol);
+            // Columna para el RHS
             var rhsCol = new DataGridViewTextBoxColumn { HeaderText = "RHS", Name = "rhs", Width = 70 };
             dgvRestricciones.Columns.Add(rhsCol);
 
@@ -82,12 +88,13 @@ namespace MaxMin
             dgvRestricciones.RowHeadersVisible = true;
         }
 
-        // NUEVO: Este método se ejecuta cada vez que cambias el valor en nudNumeroVariables
+        // Evento que se ejecuta al cambiar el número de variables
         private void nudNumeroVariables_ValueChanged(object sender, EventArgs e)
         {
             ConfigurarTablasDeEntrada();
         }
 
+        // Establece el valor por defecto de la columna "desigualdad" en las restricciones
         private void dgvRestricciones_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
             e.Row.Cells["desigualdad"].Value = "<=";
@@ -95,22 +102,24 @@ namespace MaxMin
 
         // --- EVENTOS DE BOTONES ---
 
+        // Evento del botón para regresar (sin implementación aquí)
         private void btnRegresar_Click(object sender, EventArgs e)
         {
         }
 
+        // Evento del botón para resolver el problema
         private void btnResolver_Click(object sender, EventArgs e)
         {
             try
             {
-                tabIteraciones.TabPages.Clear();
+                tabIteraciones.TabPages.Clear(); // Limpia las iteraciones previas
                 txtResultadoFinal.Text = "Resolviendo...";
 
                 bool maximize = (cmbTipo.SelectedItem?.ToString() ?? "Maximizar") == "Maximizar";
 
-                // CAMBIO: nVars se lee del nuevo control, y maxIter se elimina
                 int nVars = (int)nudNumeroVariables.Value;
 
+                // Lee los coeficientes de la función objetivo
                 double[] cOrig = new double[nVars];
                 for (int i = 0; i < nVars; i++)
                 {
@@ -120,6 +129,7 @@ namespace MaxMin
                         cOrig[i] = 0;
                 }
 
+                // Lee las restricciones ingresadas
                 List<Restriccion> restrs = new List<Restriccion>();
                 foreach (DataGridViewRow row in dgvRestricciones.Rows)
                 {
@@ -142,7 +152,7 @@ namespace MaxMin
                     return;
                 }
 
-                // CAMBIO: Se llama al método SolveBigM sin el parámetro maxIter
+                // Llama al método principal de resolución
                 SolveBigM(cOrig, restrs, maximize);
             }
             catch (Exception ex)
@@ -152,18 +162,20 @@ namespace MaxMin
             }
         }
 
-        // --- LÓGICA DEL ALGORITMO SIMPLEX ---
+        // --- LÓGICA DEL ALGORITMO SIMPLEX CON MÉTODO DE LA M GRANDE ---
 
-        // CAMBIO: El método ya no recibe el parámetro maxIter
+        // Método principal que implementa el algoritmo Big M
+        // Recibe los coeficientes de la función objetivo, las restricciones y si es maximización
         private void SolveBigM(double[] cOrig, List<Restriccion> restrs, bool maximize)
         {
-            double M = 1e6;
-            double tol = 1e-9;
+            double M = 1e6; // Valor grande para penalizar variables artificiales
+            double tol = 1e-9; // Tolerancia numérica
             int nVars = cOrig.Length;
 
             double sign = maximize ? 1.0 : -1.0;
             for (int i = 0; i < nVars; i++) cOrig[i] *= sign;
 
+            // Normaliza restricciones con RHS negativo
             foreach (var r in restrs)
             {
                 if (r.RHS < 0)
@@ -184,6 +196,7 @@ namespace MaxMin
             var Atemp = new List<List<double>>();
             var basis = new List<int>();
 
+            // Construye la matriz de restricciones y variables adicionales
             for (int i = 0; i < mRows; i++)
             {
                 Atemp.Add(new List<double>(restrs[i].Coeficientes));
@@ -246,9 +259,10 @@ namespace MaxMin
             int iter = 0;
             bool unbounded = false;
 
-            // CAMBIO: El bucle ahora tiene un límite de seguridad en lugar de usar maxIter
+            // Bucle principal del método simplex
             while (iter < 500)
             {
+                // Calcula los valores de CB, Zj y RC
                 double[] CB = new double[mRows];
                 for (int i = 0; i < mRows; i++) CB[i] = c[basis[i]];
 
@@ -263,6 +277,7 @@ namespace MaxMin
                 double[] RC = new double[nTot];
                 for (int j = 0; j < nTot; j++) RC[j] = c[j] - Zj[j];
 
+                // Crea una tabla para mostrar la iteración actual
                 DataTable dt = new DataTable();
                 dt.Columns.Add("Base");
                 dt.Columns.Add("CB");
@@ -282,24 +297,24 @@ namespace MaxMin
                 for (int j = 0; j < nTot; j++) zRow[varNames[j]] = Math.Round(Zj[j], 6).ToString(CultureInfo.InvariantCulture);
                 zRow["RHS"] = Math.Round(CB.Zip(b, (cb_val, b_val) => cb_val * b_val).Sum(), 6).ToString(CultureInfo.InvariantCulture);
                 dt.Rows.Add(zRow);
-                //var rcRow = dt.NewRow();
-                //rcRow["Base"] = "Zj";
-                //for (int j = 0; j < nTot; j++) rcRow[varNames[j]] = Math.Round(RC[j], 6).ToString(CultureInfo.InvariantCulture);
-                //dt.Rows.Add(rcRow);
 
+                // Muestra la tabla en una nueva pestaña
                 var tp = new TabPage($"Iteración {iter}");
                 var dgv = new DataGridView() { Dock = DockStyle.Fill, ReadOnly = true, DataSource = dt, AllowUserToAddRows = false, AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells };
                 tp.Controls.Add(dgv);
                 tabIteraciones.TabPages.Add(tp);
                 tabIteraciones.SelectedTab = tp;
 
+                // Verifica condición de optimalidad
                 if (RC.All(rc => rc <= tol))
                 {
                     break;
                 }
 
+                // Determina variable entrante
                 int entering = Array.IndexOf(RC, RC.Max());
 
+                // Determina variable saliente
                 double minRatio = double.PositiveInfinity;
                 int leavingRow = -1;
                 for (int r = 0; r < mRows; r++)
@@ -315,12 +330,14 @@ namespace MaxMin
                     }
                 }
 
+                // Si no hay variable saliente, el problema es no acotado
                 if (leavingRow == -1)
                 {
                     unbounded = true;
                     break;
                 }
 
+                // Realiza el pivoteo
                 double pivot = A[leavingRow, entering];
                 for (int j = 0; j < nTot; j++) A[leavingRow, j] /= pivot;
                 b[leavingRow] /= pivot;
@@ -337,16 +354,18 @@ namespace MaxMin
                 iter++;
             }
 
-            // (El código para mostrar los resultados finales no cambia)
+            // --- RESULTADOS FINALES ---
             if (unbounded)
             {
                 txtResultadoFinal.Text = "PROBLEMA NO ACOTADO (UNBOUNDED)." + Environment.NewLine + "La solución tiende a infinito.";
                 return;
             }
 
+            // Calcula la solución final
             double[] xsol = new double[nTot];
             for (int r = 0; r < mRows; r++) xsol[basis[r]] = b[r];
 
+            // Verifica si hay variables artificiales mayores a cero
             bool artificialNonZero = false;
             for (int j = 0; j < nTot; j++)
             {
@@ -363,11 +382,13 @@ namespace MaxMin
                 return;
             }
 
+            // Calcula el valor de la función objetivo
             double Zval = 0;
             for (int i = 0; i < nVars; i++) Zval += cOrig[i] * xsol[i];
 
             double Zreport = maximize ? Zval : -Zval;
 
+            // Muestra el resultado final
             string resultado = $"SOLUCIÓN ÓPTIMA ENCONTRADA:" + Environment.NewLine;
             resultado += $"Valor de Z = {Zreport:G6}" + Environment.NewLine + Environment.NewLine;
             resultado += "Variables de Decisión:" + Environment.NewLine;
@@ -380,31 +401,33 @@ namespace MaxMin
             MessageBox.Show("Proceso finalizado.", "Listo", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
+        // --- EVENTOS DE INTERFAZ ADICIONALES ---
         private void tabIteraciones_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            // Evento al cambiar de pestaña de iteraciones
         }
 
         private void gbIteraciones_Enter(object sender, EventArgs e)
         {
-
+            // Evento al entrar al groupbox de iteraciones
         }
 
         private void lblTitulo_Click(object sender, EventArgs e)
         {
-
+            // Evento al hacer click en el título
         }
 
         private void gbConfiguracion_Enter(object sender, EventArgs e)
         {
-
+            // Evento al entrar al groupbox de configuración
         }
 
         private void gbEntrada_Enter(object sender, EventArgs e)
         {
-
+            // Evento al entrar al groupbox de entrada
         }
 
+        // Evento del botón regresar (implementación que oculta este formulario y muestra el menú principal)
         private void btnRegresar_Click_1(object sender, EventArgs e)
         {
             this.Hide();
